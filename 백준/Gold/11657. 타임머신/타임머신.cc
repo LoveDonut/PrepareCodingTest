@@ -1,65 +1,69 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 #define ll long long
 
-using namespace std;    
+using namespace std;
+
+ll dist[501];
+vector<pair<pair<int,int>,int>> v;
+int n, m;
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
+	ios_base::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
- 	
- 	ll dist[501];
- 	vector<tuple<int,int,int>> bus;
- 	
- 	fill(dist, dist + 501, 1e9);
-
- 	dist[1] = 0;
- 	int n, m;
- 	
- 	cin >> n >> m;
- 	
- 	for(int i=0; i<m; i++)
- 	{
- 		int a, b, c;
+	
+	cin >> n >> m;
+	
+	for(int i=0; i<m; i++)
+	{
+		int a, b, c;
 		cin >> a >> b >> c;
-		bus.push_back(make_tuple(a,b,c));
+		v.push_back({{a,b},c});
 	}
 	
-	for(int i=0; i<n-1; i++)
+	fill(dist + 2, dist + 501, 1e9);
+		
+	for(int i=0; i<n-1;i++)
 	{
-		for(tuple<int,int,int> t : bus)
+		for(pair<pair<int,int>,int> p : v)
 		{
-			int a, b, c;
-			tie(a,b,c) = t;
-			if(dist[a] != 1e9)
+			int from = p.first.first, to = p.first.second, cost = p.second;
+			
+			if(dist[from] == 1e9) continue;
+			
+			if(dist[to] > dist[from] + cost)
 			{
-				dist[b] = min(dist[b], dist[a] + c);
+				dist[to] = dist[from] + cost;
 			}
 		}
 	}
 	
-	for(tuple<int,int,int> t : bus)
+	for(pair<pair<int,int>,int> p : v)
 	{
-		int a, b, c;
-		tie(a,b,c) = t;
-		if(dist[a] != 1e9 && dist[b] > dist[a] + c)
+		int from = p.first.first, to = p.first.second, cost = p.second;
+		
+		if(dist[from] == 1e9) continue;
+		
+		if(dist[to] > dist[from] + cost)
 		{
-			if(dist[b] > dist[a] + c)
 			cout << "-1";
 			return 0;
 		}
 	}
 	
- 	for(int i=2; i<=n; i++)
- 	{
- 		if(dist[i] == 1e9)
- 		{
- 			cout << "-1\n";
+	for(int i=2; i<=n; i++)
+	{
+		if(dist[i] == 1e9)
+		{
+			cout <<"-1\n";
 		}
- 		else
- 		{
- 			cout << dist[i] << '\n';	
+		else
+		{
+			cout << dist[i] << '\n';
 		}
 	}
+	
+	
+	return 0;
 }
