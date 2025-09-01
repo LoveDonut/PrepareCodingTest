@@ -1,38 +1,26 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <queue>
 
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
     vector<int> answer;
-    queue<pair<int,int>> q;
+    int before = 0;
     for(int i=0; i<progresses.size(); i++)
     {
-        q.push({progresses[i], speeds[i]});
-    }
-    while(q.size())
-    {
-        int sum = 0;
-        int size = q.size();
-        for(int i=0; i<size; i++)
+        int time = (100 - progresses[i]) / speeds[i];
+        if((100 - progresses[i]) % speeds[i] != 0)
         {
-            pair<int,int> p = q.front();
-            q.push({p.first + p.second, p.second});
-            q.pop();
+            time++;
         }
-        for(int i=0; i<size; i++)
+        if(time <= before)
         {
-            if(q.front().first >= 100)
-            {
-                sum++;
-                q.pop();
-            }
+            answer[answer.size() - 1]++;
         }
-        if(sum > 0)
+        else
         {
-            answer.push_back(sum);
+            answer.push_back(1);            
+            before = time;
         }
     }
     return answer;
