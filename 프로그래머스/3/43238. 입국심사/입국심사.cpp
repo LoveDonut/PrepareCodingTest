@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 typedef long long ll;
 
@@ -23,14 +24,15 @@ long long solution(int n, vector<int> times) {
     while(left <= right)
     {
         ll mid = (left + right) / 2;
+        cout << left << ' ' << right << ' ' << mid << '\n';
         if(check(mid, times) >= n)
         {
+            answer = mid;
             right = mid-1;
         }
         else
         {
             left = mid+1;
-            answer = left;
         }
     }
     return answer;
