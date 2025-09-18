@@ -7,10 +7,11 @@ int main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
     
-    int N, num;
+    int N;
     vector<int> numlist;
     cin >> N;
 
+    int maxLength = 0, maxValue = 0, prevValue = 0, num, curLength = 0;
     for(int i=0; i<N; i++)
     {
         cin >> num;
